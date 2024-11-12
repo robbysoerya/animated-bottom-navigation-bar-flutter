@@ -15,12 +15,14 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
   final GapLocation gapLocation;
   final double leftCornerRadius;
   final double rightCornerRadius;
+  final double margin;
 
   CircularNotchedAndCorneredRectangle({
     required this.notchSmoothness,
     required this.gapLocation,
     required this.leftCornerRadius,
     required this.rightCornerRadius,
+    required this.margin,
     this.animation,
   });
 
@@ -44,21 +46,31 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
         double rightCornerRadius =
             this.rightCornerRadius * (animation?.value ?? 1);
         return Path()
-          ..moveTo(host.left, host.bottom)
-          ..lineTo(host.left, host.top + leftCornerRadius)
+          ..moveTo(host.left + margin, host.bottom)
+          ..lineTo(host.left + margin, host.top + leftCornerRadius)
           ..arcToPoint(
-            Offset(host.left + leftCornerRadius, host.top),
+            Offset(host.left + leftCornerRadius + margin, host.top),
             radius: Radius.circular(leftCornerRadius),
             clockwise: true,
           )
-          ..lineTo(host.right - rightCornerRadius, host.top)
+          ..lineTo(host.right - rightCornerRadius - margin, host.top)
           ..arcToPoint(
-            Offset(host.right, host.top + rightCornerRadius),
+            Offset(host.right - margin, host.top + rightCornerRadius),
             radius: Radius.circular(rightCornerRadius),
             clockwise: true,
           )
-          ..lineTo(host.right, host.bottom)
-          ..lineTo(host.left, host.bottom)
+          ..lineTo(host.right - margin, host.bottom - rightCornerRadius)
+          ..arcToPoint(
+            Offset(host.right - rightCornerRadius - margin, host.bottom),
+            radius: Radius.circular(rightCornerRadius),
+            clockwise: true,
+          )
+          ..lineTo(host.left + leftCornerRadius + margin, host.bottom)
+          ..arcToPoint(
+            Offset(host.left + margin, host.bottom - leftCornerRadius),
+            radius: Radius.circular(leftCornerRadius),
+            clockwise: true,
+          )
           ..close();
       }
       return Path()..addRect(host);
@@ -123,13 +135,15 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
     p[5] = Offset(-1.0 * p[0].dx, p[0].dy);
 
     // translate all points back to the absolute coordinate system.
-    for (int i = 0; i < p.length; i += 1) p[i] += guest.center;
+    for (int i = 0; i < p.length; i += 1) {
+      p[i] += guest.center;
+    }
 
     return Path()
-      ..moveTo(host.left, host.bottom)
-      ..lineTo(host.left, host.top + leftCornerRadius)
+      ..moveTo(host.left + margin, host.bottom)
+      ..lineTo(host.left + margin, host.top + leftCornerRadius)
       ..arcToPoint(
-        Offset(host.left + leftCornerRadius, host.top),
+        Offset(host.left + leftCornerRadius + margin, host.top),
         radius: Radius.circular(leftCornerRadius),
         clockwise: true,
       )
@@ -141,14 +155,24 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
         clockwise: false,
       )
       ..quadraticBezierTo(p[4].dx, p[4].dy, p[5].dx, p[5].dy)
-      ..lineTo(host.right - rightCornerRadius, host.top)
+      ..lineTo(host.right - rightCornerRadius - margin, host.top)
       ..arcToPoint(
-        Offset(host.right, host.top + rightCornerRadius),
+        Offset(host.right - margin, host.top + rightCornerRadius),
         radius: Radius.circular(rightCornerRadius),
         clockwise: true,
       )
-      ..lineTo(host.right, host.bottom)
-      ..lineTo(host.left, host.bottom)
+      ..lineTo(host.right - margin, host.bottom - rightCornerRadius)
+      ..arcToPoint(
+        Offset(host.right - rightCornerRadius - margin, host.bottom),
+        radius: Radius.circular(rightCornerRadius),
+        clockwise: true,
+      )
+      ..lineTo(host.left + leftCornerRadius + margin, host.bottom)
+      ..arcToPoint(
+        Offset(host.left + margin, host.bottom - leftCornerRadius),
+        radius: Radius.circular(leftCornerRadius),
+        clockwise: true,
+      )
       ..close();
   }
 }

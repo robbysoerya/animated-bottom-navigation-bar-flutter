@@ -247,7 +247,7 @@ class _NavigationScreenState extends State<NavigationScreen>
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<CustomColorsTheme>()!;
     return Container(
-      color: Theme.of(context).colorScheme.background,
+      color: Theme.of(context).colorScheme.surface,
       child: ListView(
         children: [
           SizedBox(height: 64),

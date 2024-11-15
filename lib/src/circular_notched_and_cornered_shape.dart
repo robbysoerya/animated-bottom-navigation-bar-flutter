@@ -4,8 +4,6 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/animation.dart';
 import 'package:flutter/painting.dart';
 
-import 'exceptions.dart';
-
 class CircularNotchedAndCorneredRectangle extends NotchedShape {
   /// Creates a [CircularNotchedAndCorneredRectangle].
   ///
@@ -74,23 +72,6 @@ class CircularNotchedAndCorneredRectangle extends NotchedShape {
           ..close();
       }
       return Path()..addRect(host);
-    }
-
-    final guestCenterDx = guest.center.dx.toInt();
-    final halfOfHostWidth = host.width ~/ 2;
-
-    if (guestCenterDx == halfOfHostWidth) {
-      if (gapLocation == GapLocation.end)
-        throw GapLocationException(
-            'Wrong gap location in $AnimatedBottomNavigationBar towards FloatingActionButtonLocation => '
-            'consider use ${GapLocation.center} instead of $gapLocation or change FloatingActionButtonLocation');
-    }
-
-    if (guestCenterDx != halfOfHostWidth) {
-      if (gapLocation == GapLocation.center)
-        throw GapLocationException(
-            'Wrong gap location in $AnimatedBottomNavigationBar towards FloatingActionButtonLocation => '
-            'consider use ${GapLocation.end} instead of $gapLocation or change FloatingActionButtonLocation');
     }
 
     // The guest's shape is a circle bounded by the guest rectangle.

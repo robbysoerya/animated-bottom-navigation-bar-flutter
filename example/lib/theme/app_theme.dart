@@ -26,7 +26,6 @@ class AppTheme {
       ),
       colorScheme: base.colorScheme.copyWith(
         surface: isLight ? Colors.blue : colorGray,
-        background: isLight ? Colors.white : colorGray,
       ),
     );
   }
